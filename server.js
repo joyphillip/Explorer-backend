@@ -6,6 +6,8 @@ const routes = require('./routes')
 
 /* == Express Instance == */
 const app = express()
+
+/* == config == */
 require('dotenv').config()
 
 /* == Port == */
