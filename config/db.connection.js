@@ -1,10 +1,10 @@
 // require mongoose
 const mongoose = require('mongoose');
-/* == connection string == */
-const connectionStr = process.env.MONGODB_URI || 'mongodb+srv://jphillip018:Philmor4eva09!@joyscluster.fmwflap.mongodb.net/Explorer?retryWrites=true&w=majority';
 
 // set up connection with the DB
-mongoose.connect( connectionStr);
+mongoose.connect(
+    `mongodb+srv://jphillip018:${process.env.MONGODB_PASSWORD}@joyscluster.fmwflap.mongodb.net/?retryWrites=true&w=majority`
+);
 
 // set up listeners to monitor your database connection
 mongoose.connection.on('connected', ()=> console.log('DB connected... 🙌🙌🙌'));
