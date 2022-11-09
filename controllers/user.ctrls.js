@@ -1,65 +1,21 @@
-const db = require('../models')
-const bcrypt = require('bcrypt')
-const session = require("express-session")
+const User = require("../models/User");
 
-// / POST ROUTE sign up
-const signup = (req, res) => {
-  req.body.password = bcrypt.hashSync(req.body.password, bcrypt.genSaltSync(10))
-
-  db.User.create(req.body, (error, createdUser) => {
-    if(error){
-      res.status(400).json({
-        error: error.message
-      })
-    } else {
-      console.log('user has been registered')
-      res.status(201).json(createdUser)
+//GET all Users
+const getAllUsers = async (req, res) => {
+    let users;
+    try {
+        users = await User.find()
+    } catch (err) {
+        return console.log(err)
     }
-  })
-}
-
-
-// USER LOGIN ROUTE (CREATE SESSION)
-const login = (req, res) => {
-  db.User.findOne({ username: req.body.username
-  }, (err, foundUser) => {
-    if(err){
-      res.send(err)
+    if (!users) {
+        return res.status(500).json({message: "Unexpected Error Occured"})
     } else {
-      if (foundUser) {
-        if (bcrypt.compareSync(req.body.password, foundUser.password)){
-          req.session.currentUser = foundUser
-          console.log('user has been logged in')
-          res.status(200).json(foundUser)
-        } else {
-          res.status(404).json({
-            error: 'Incorrect Password'
-          })
-        }
-      } else{
-        res.status(400).json({ error: err})
-      }
+        return res.status(200).json({users})
     }
-  })
 }
 
-// DELETE USER
-const logout = (req, res) => {
-  req.session.destroy(() => {
-    res.status(200).json({
-      msg: 'user logged out'
-    })
-  })
-}
-
-
-// exports
 module.exports = {
-    signup,
-    login,
-    logout,
-  }
-
-
-
+    getAllUsers
+}
 

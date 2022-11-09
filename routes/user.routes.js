@@ -1,10 +1,9 @@
-// const express = require('express')
-// const router = express.Router()
+const express = require('express')
+const userRouter = express.Router()
+const ctrls = require('../controllers/user.ctrls')
 
-// const ctrls = require('../controllers')
+userRouter.get('/', ctrls.getAllUsers)
 
-// // Get all users
-// router.get('/', ctrls.user.index )
+module.exports = userRouter
 
 
-// module.exports = router

@@ -2,7 +2,8 @@
 const express = require('express')
 
 /* == Internal Modules == */
-const routes = require('./routes')
+const routes = require('./routes');
+const userRouter = require('./routes/user.routes');
 
 /* == Express Instance == */
 const app = express()
@@ -22,6 +23,7 @@ app.use(express.urlencoded({ extended: true }));
 
 /* == Routes == */
 app.use('/posts', routes.posts)
+app.use('/users', userRouter)
 
 app.listen(PORT, () => {
   console.log('✨', 'Listening on Port:', PORT, '✨',)
