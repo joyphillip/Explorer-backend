@@ -1,4 +1,6 @@
 const User = require("../models/User");
+const bcrypt = require('bcrypt')
+
 
 //GET all Users
 const getAllUsers = async (req, res) => {
@@ -15,7 +17,7 @@ const getAllUsers = async (req, res) => {
     }
 }
 
-//POST signup
+//POST register
 const register = async (req, res) => {
     const {name, email, password} = req.body
     if(
@@ -28,10 +30,12 @@ const register = async (req, res) => {
         ) {
             return res.status(422).json({message: "Invalid username, email, and/or password"})
         }
+    
+    const hashedPassword = bcrypt.hashSync(req.body.password, bcrypt.genSaltSync(10))
 
     let user;
     try {
-        user = new User({email, name, password})
+        user = new User({email, name, password: hashedPassword})
         await user.save()
     } catch (err) {
         return console.log(err)
