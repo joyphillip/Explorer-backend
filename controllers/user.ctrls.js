@@ -49,9 +49,38 @@ const register = async (req, res) => {
 
 }
 
+//POST login
+const login = async (req, res) => {
+    const {name, email, password} = req.body
+    if(
+        !email && 
+        email.trim()==="" && 
+        !password && 
+        password.length < 6
+        ) {
+            return res.status(422).json({message: "Invalid username, email, and/or password"})
+        }
+    let existingUser;
+        try {
+            existingUser = await User.findOne({email})
+        } catch (err) {
+            return console.log(err)
+        }
+        if(!existingUser) {
+            return res.status(404).json({message: "No User Found"})
+        }
+        const isPasswordCorrect = bcrypt.compareSync(password, existingUser.password)
+
+        if (!isPasswordCorrect) {
+            return res.status(400).json({message: "Password is Incorrect"})
+        } else {
+            res.status(200).json({id: existingUser, message: "Login Successful!"})
+        }
+}
 
 module.exports = {
     getAllUsers,
     register,
+    login,
 }
 
