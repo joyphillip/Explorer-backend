@@ -23,7 +23,7 @@ app.use(express.urlencoded({ extended: true }));
 
 /* == Routes == */
 app.use('/posts', routes.posts)
-app.use('/users', userRouter)
+app.use('/user', userRouter)
 
 app.listen(PORT, () => {
   console.log('✨', 'Listening on Port:', PORT, '✨',)
