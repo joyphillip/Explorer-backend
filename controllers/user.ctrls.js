@@ -1,5 +1,6 @@
 const User = require("../models/User");
 const bcrypt = require('bcrypt')
+const session = require('express-session')
 
 
 //GET all Users
@@ -58,7 +59,7 @@ const login = async (req, res) => {
         !password && 
         password.length < 6
         ) {
-            return res.status(422).json({message: "Invalid username, email, and/or password"})
+            return res.status(422).json({message: "Invalid email, and/or password"})
         }
     let existingUser;
         try {
@@ -78,9 +79,19 @@ const login = async (req, res) => {
         }
 }
 
+// DESTROY logout
+// const logout = async (req, res) => {
+//     req.body.destroy(() => {
+//         res.status(200).json({
+//             message: "User Logged out"
+//         })
+//     })
+// }
+
 module.exports = {
     getAllUsers,
     register,
     login,
+    // logout
 }
 

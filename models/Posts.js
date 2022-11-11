@@ -5,7 +5,7 @@ const postsSchema = new mongoose.Schema({
         type: String,
         required: true
     },
-    country: {
+    loaction: {
         type: String
     },
     description: {
@@ -15,7 +15,7 @@ const postsSchema = new mongoose.Schema({
         type: String
     },
     date: {
-        type: String
+        type: Date
     },
     favorite: {
         type: Boolean,
