@@ -5,7 +5,7 @@ const postsSchema = new mongoose.Schema({
         type: String,
         required: true
     },
-    loaction: {
+    location: {
         type: String
     },
     description: {

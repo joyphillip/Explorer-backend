@@ -3,7 +3,9 @@ const postsRouter = express.Router()
 
 const ctrls = require('../controllers')
 
-postsRouter.get('/', ctrls.posts.index)
-postsRouter.post('/', ctrls.posts.create)
+postsRouter.get('/', ctrls.posts.getAllPosts)
+postsRouter.get('/:id', ctrls.posts.showPost)
+postsRouter.post('/', ctrls.posts.createPost)
+
 
 module.exports = postsRouter
