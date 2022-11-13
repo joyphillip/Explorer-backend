@@ -135,8 +135,17 @@ const updatePost = async (req, res) => {
 const deletePost = async (req, res) => {
     const id = req.params.id;
     let post;
+
     try {
+        //create session
+        const session = await mongoose.startSession()
+        session.startTransaction()
+        //find all the posts by user
+        post = await Posts.findById(id).populate("user")
+        post.user.posts.pull(post)
+        await post.user.save({session})
         post = await Posts.findByIdAndRemove(id)
+        session.commitTransaction()
     } catch(err) {
         return console.log(err)
     }
