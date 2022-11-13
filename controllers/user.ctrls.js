@@ -1,6 +1,7 @@
 const User = require("../models/User");
 const bcrypt = require('bcrypt')
-const session = require('express-session')
+const session = require('express-session');
+const { default: mongoose } = require("mongoose");
 
 
 //GET all Users
@@ -77,21 +78,24 @@ const login = async (req, res) => {
         } else {
             res.status(200).json({id: existingUser, message: "Login Successful!"})
         }
+        //start session
+        const session = await mongoose.startSession()
+        session.startTransaction()
 }
 
 // DESTROY logout
-// const logout = async (req, res) => {
-//     req.body.destroy(() => {
-//         res.status(200).json({
-//             message: "User Logged out"
-//         })
-//     })
-// }
+const logout = async (req, res) => {
+    req.session.destroy(() => {
+        res.status(200).json({
+            message: "User Logged out"
+        })
+    })
+}
 
 module.exports = {
     getAllUsers,
     register,
     login,
-    // logout
+    logout
 }
 
