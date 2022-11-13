@@ -15,7 +15,10 @@ const userSchema = new mongoose.Schema({
         required: true,
         minLength: 6,
     },
-    posts:[{type: String}]
+    //relating user to only their posts
+    posts:[{
+        type: mongoose.Types.ObjectId, 
+        ref: "Posts"}]
 })
 
 const User = mongoose.model('User', userSchema)

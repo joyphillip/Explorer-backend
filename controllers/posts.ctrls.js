@@ -1,5 +1,8 @@
 const { compare, compareSync } = require('bcrypt');
-const Posts = require('../models/Posts')
+const { default: mongoose } = require('mongoose');
+const session = require('express-session')
+const Posts = require('../models/Posts');
+const User = require('../models/User');
 
 //GET all posts
 const  getAllPosts = async (req, res) => {
@@ -36,6 +39,16 @@ const createPost = async (req, res) => {
         ) {
             return res.status(422).json({message: "Invalid data"})
         } else {
+            let existingUser;
+            try{
+                existingUser = await User.findById(user)
+            } catch(err){
+                return console.log(err)
+            }
+            if (!existingUser) {
+                return res.status(404).json({message: "User not found!"})
+            }
+
             let post;
             try {
                 post = new Posts({title, location, 
@@ -43,7 +56,14 @@ const createPost = async (req, res) => {
                 images, 
                 date: new Date(`${date}`), favorite, 
                 user})
-                post = await post.save()
+
+            const session = await mongoose.startSession();
+
+            session.startTransaction();
+            existingUser.posts.push(post)
+            await existingUser.save({session})
+            post = await post.save({session})
+            session.commitTransaction()
             } catch(err) {
                 return console.log(err)
             }
