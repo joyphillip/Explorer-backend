@@ -111,7 +111,21 @@ const updatePost = async (req, res) => {
         }
 }
 
-
+//DELETE post
+const deletePost = async (req, res) => {
+    const id = req.params.id;
+    let post;
+    try {
+        post = await Posts.findByIdAndRemove(id)
+    } catch(err) {
+        return console.log(err)
+    }
+    if (!post) {
+        return res.status(500).json({message: "Unable to Delete"})
+    } else {
+        return res.status(200).json({message: "Post Deleted Successfully!"})
+    }
+}
 
 
 module.exports = {
@@ -119,4 +133,5 @@ module.exports = {
     createPost,
     showPost,
     updatePost,
+    deletePost
 }
