@@ -20,6 +20,10 @@ const postsSchema = new mongoose.Schema({
     favorite: {
         type: Boolean,
         default: false
+    },
+    user: {
+        type: String,
+        required: true
     }
 })
 
