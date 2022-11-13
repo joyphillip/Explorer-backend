@@ -72,6 +72,44 @@ const showPost = async (req, res) => {
     }
 }
 
+//PUT update post
+const updatePost = async (req, res) => {
+    const id = req.params.id;
+    const {title, location, description, images, date, favorite} = req.body
+    
+    if(
+        !title &&
+        title.trim() === "" &&
+        !location &&
+        location.trim() === "" &&
+        !description &&
+        description.trim() === "" &&
+        !images &&
+        images.trim() === "" &&
+        !date &&
+        !favorite
+    ) {
+        return res.status(422).json({message: "Invalid data"}) 
+        }
+        let post;
+        try {
+            post = await Posts.findByIdAndUpdate(id, {
+                title, 
+                location, 
+                description, 
+                images, 
+                date: new Date(`${date}`), 
+                favorite
+            })
+        } catch (err){
+            return console.log(err)
+        }
+        if (!post) {
+            return res.stauts(500).json({message: "Unable to Update"})
+        } else {
+            return res.status(200).json({message: "Updated Successfully"})
+        }
+}
 
 
 
@@ -80,4 +118,5 @@ module.exports = {
     getAllPosts,
     createPost,
     showPost,
+    updatePost,
 }

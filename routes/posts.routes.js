@@ -6,6 +6,6 @@ const ctrls = require('../controllers')
 postsRouter.get('/', ctrls.posts.getAllPosts)
 postsRouter.get('/:id', ctrls.posts.showPost)
 postsRouter.post('/', ctrls.posts.createPost)
-
+postsRouter.put('/:id', ctrls.posts.updatePost)
 
 module.exports = postsRouter
