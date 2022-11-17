@@ -23,39 +23,27 @@ const  getAllPosts = async (req, res) => {
 //POST create new post
 const createPost = async (req, res) => {
     const {title, location, description, images, date, favorite, user} = req.body
-    
-    if(
-        !title &&
-        title.trim() === "" &&
-        !location &&
-        location.trim() === "" &&
-        !description &&
-        description.trim() === "" &&
-        !images &&
-        images.trim() === "" &&
-        !date &&
-        !favorite &&
-        !user
-        ) {
-            return res.status(422).json({message: "Invalid data"})
-        } else {
-            let existingUser;
-            try{
-                existingUser = await User.findById(user)
-            } catch(err){
-                return console.log(err)
-            }
-            if (!existingUser) {
-                return res.status(404).json({message: "User not found!"})
-            }
+    let existingUser;
+    try {
+      existingUser = await User.findById(user);
+    } catch (err) {
+      return console.log(err);
+    }
+    if (!existingUser) {
+      return res.status(400).json({ message: "User Not Found!" });
+    }
 
-            let post;
-            try {
-                post = new Posts({title, location, 
-                description,
-                images, 
-                date: new Date(`${date}`), favorite, 
-                user})
+    let post;
+        try {
+            post = new Posts({
+            title, 
+            location, 
+            description,
+            images, 
+            date: new Date(`${date}`), 
+            favorite, 
+            user
+            })
 
             const session = await mongoose.startSession();
 
@@ -73,7 +61,7 @@ const createPost = async (req, res) => {
                 return res.status(201).json({post})
             }
         }
-}
+
 
 //GET post by id
 const showPost = async (req, res) => {
