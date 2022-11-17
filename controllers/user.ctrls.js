@@ -22,22 +22,24 @@ const getAllUsers = async (req, res) => {
 //POST register
 const register = async (req, res) => {
     const {name, email, password} = req.body
-    // if(
-    //     !name && 
-    //     name.trim()==="" && 
-    //     !email && 
-    //     email.trim()==="" && 
-    //     !password && 
-    //     password.length < 6
-    //     ) {
-    //         return res.status(422).json({message: "Invalid username, email, and/or password"})
-    //     }
+    
+    let existingUser;
+    try {
+     existingUser = await User.findOne({ email });
+    } catch (err) {
+        return console.log(err);
+    }
+    if (existingUser) {
+        return res
+        .status(400)
+        .json({ message: "User Already Exists! Please Sign-in" });
+  }
     
     const hashedPassword = bcrypt.hashSync(req.body.password, bcrypt.genSaltSync(10))
 
     let user;
     try {
-        user = new User({email, name, password: hashedPassword})
+        user = new User({email, name, password: hashedPassword, posts: []})
         await user.save()
     } catch (err) {
         return console.log(err)

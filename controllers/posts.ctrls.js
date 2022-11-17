@@ -144,11 +144,27 @@ const deletePost = async (req, res) => {
     }
 }
 
+//GET posts by UserId
+const getByUserId = async (req, res) => {
+    const userId = req.params.id;
+    let userPosts;
+    try {
+      userPosts = await User.findById(userId).populate("posts")
+    } catch (err) {
+      return console.log(err);
+    }
+    if (!userPosts) {
+      return res.status(404).json({ message: "No Post Found" })
+    }
+    return res.status(200).json({ user: userPosts });
+}
+
 
 module.exports = {
     getAllPosts,
     createPost,
     showPost,
     updatePost,
-    deletePost
+    deletePost,
+    getByUserId
 }
