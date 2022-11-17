@@ -22,16 +22,16 @@ const getAllUsers = async (req, res) => {
 //POST register
 const register = async (req, res) => {
     const {name, email, password} = req.body
-    if(
-        !name && 
-        name.trim()==="" && 
-        !email && 
-        email.trim()==="" && 
-        !password && 
-        password.length < 6
-        ) {
-            return res.status(422).json({message: "Invalid username, email, and/or password"})
-        }
+    // if(
+    //     !name && 
+    //     name.trim()==="" && 
+    //     !email && 
+    //     email.trim()==="" && 
+    //     !password && 
+    //     password.length < 6
+    //     ) {
+    //         return res.status(422).json({message: "Invalid username, email, and/or password"})
+    //     }
     
     const hashedPassword = bcrypt.hashSync(req.body.password, bcrypt.genSaltSync(10))
 
@@ -53,15 +53,15 @@ const register = async (req, res) => {
 
 //POST login
 const login = async (req, res) => {
-    const {name, email, password} = req.body
-    if(
-        !email && 
-        email.trim()==="" && 
-        !password && 
-        password.length < 6
-        ) {
-            return res.status(422).json({message: "Invalid email, and/or password"})
-        }
+    // const {name, email, password} = req.body
+    // if(
+    //     !email && 
+    //     email.trim()==="" && 
+    //     !password && 
+    //     password.length < 6
+    //     ) {
+    //         return res.status(422).json({message: "Invalid email, and/or password"})
+    //     }
     let existingUser;
         try {
             existingUser = await User.findOne({email})
@@ -87,7 +87,7 @@ const login = async (req, res) => {
 const logout = async (req, res) => {
     req.session.destroy(() => {
         res.status(200).json({
-            message: "User Logged out"
+            message: "User Logged-out Successfully"
         })
     })
 }

@@ -3,7 +3,7 @@ const mongoose = require('mongoose');
 
 // set up connection with the DB
 mongoose.connect(
-    `mongodb+srv://jphillip018:${process.env.MONGODB_PASSWORD}@joyscluster.fmwflap.mongodb.net/?retryWrites=true&w=majority`
+    `mongodb+srv://jphillip018:${process.env.MONGODB_PASSWORD}@joyscluster.fmwflap.mongodb.net/Explorer?retryWrites=true&w=majority`
 );
 
 // set up listeners to monitor your database connection
