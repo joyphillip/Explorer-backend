@@ -55,15 +55,7 @@ const register = async (req, res) => {
 
 //POST login
 const login = async (req, res) => {
-    // const {name, email, password} = req.body
-    // if(
-    //     !email && 
-    //     email.trim()==="" && 
-    //     !password && 
-    //     password.length < 6
-    //     ) {
-    //         return res.status(422).json({message: "Invalid email, and/or password"})
-    //     }
+    const {name, email, password} = req.body
     let existingUser;
         try {
             existingUser = await User.findOne({email})
@@ -78,7 +70,7 @@ const login = async (req, res) => {
         if (!isPasswordCorrect) {
             return res.status(400).json({message: "Password is Incorrect"})
         } else {
-            res.status(200).json({id: existingUser, message: "Login Successful!"})
+            res.status(200).json({user: existingUser, message: "Login Successful!"})
         }
         //start session
         const session = await mongoose.startSession()
