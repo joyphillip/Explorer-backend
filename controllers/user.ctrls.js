@@ -70,7 +70,7 @@ const login = async (req, res) => {
         if (!isPasswordCorrect) {
             return res.status(400).json({message: "Password is Incorrect"})
         } else {
-            res.status(200).json({user: existingUser, message: "Login Successful!"})
+            res.status(200).json({message: "Login Successful!", user: existingUser})
         }
         //start session
         const session = await mongoose.startSession()
