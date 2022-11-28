@@ -40,7 +40,7 @@ const createPost = async (req, res) => {
             location, 
             description,
             images, 
-            date: new Date(`${date}`), 
+            date, 
             favorite, 
             user
             })
@@ -106,7 +106,7 @@ const updatePost = async (req, res) => {
                 location, 
                 description, 
                 images, 
-                date: new Date(`${date}`), 
+                date, 
                 favorite
             })
         } catch (err){
