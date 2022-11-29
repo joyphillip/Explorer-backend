@@ -13,7 +13,7 @@ const app = express()
 const cors = require('cors');
 app.use(cors());
 // whitelist & corsOptions
-const whitelist = [`${process.env.FRONTEND_URL}`, 'https://git.heroku.com/explorer-frontend-22.git']
+const whitelist = ['http://localhost:3001', `${process.env.FRONTEND_URL}`]
 const corsOptions = {
   origin: function (origin, callback) {
     if (whitelist.indexOf(origin) !== -1 || !origin) {
